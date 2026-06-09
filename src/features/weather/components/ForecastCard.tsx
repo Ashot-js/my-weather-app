@@ -2,9 +2,10 @@ import type { ForecastItem } from "../../../types/weather";
 
 interface ForecastCardProps {
   item: ForecastItem;
+  delay?: string;
 }
 
-export default function ForecastCard({ item }: ForecastCardProps) {
+export default function ForecastCard({ item, delay = "" }: ForecastCardProps) {
   const date = new Date(item.dt * 1000);
   const day = date.toLocaleDateString("en-US", { weekday: "short" });
   const monthDay = date.toLocaleDateString("en-US", {
@@ -18,7 +19,9 @@ export default function ForecastCard({ item }: ForecastCardProps) {
   });
 
   return (
-    <div className="bg-navy-800/40 rounded-xl p-4 border border-navy-700/30 hover:border-navy-600/50 hover:bg-navy-800/60 transition-all">
+    <div
+      className={`animate-slide-up ${delay} glass rounded-xl p-4 hover:scale-[1.04] hover:glow-accent hover:border-accent/30 transition-all duration-300 cursor-default`}
+    >
       <p className="text-sm font-medium text-navy-300">{day}</p>
       <p className="text-xs text-navy-500">
         {monthDay} · {time}

@@ -87,17 +87,49 @@ firebase login
 
 ### Deploy
 
+**Recommended — use the npm script** (works in any shell: PowerShell, cmd, bash):
+
 ```bash
-# Build + deploy in one command
-npm run build && firebase deploy
+npm run deploy
 ```
+
+**Alternative — raw commands:**
+
+| Shell | Command |
+|-------|---------|
+| **PowerShell** (Windows) | `npm run build; firebase deploy` |
+| **PowerShell 7+** | `npm run build && firebase deploy` |
+| **cmd** (Windows) | `npm run build && firebase deploy` |
+| **bash** (Linux/Mac) | `npm run build && firebase deploy` |
+
+> **Why `;` not `&&` in PowerShell?** Windows PowerShell 5.x uses `;` to chain commands. PowerShell 7+ supports `&&`.
 
 Firebase will give you a public URL (e.g., `https://your-project-id.web.app`).
 
 ### Redeploy after changes
 
 ```bash
-npm run build && firebase deploy
+npm run deploy
+```
+
+> `npm run deploy` already includes `npm run build` — **one command is enough.** You don't need to run build separately.
+
+---
+
+## Git Workflow
+
+```powershell
+# 1. Check what changed
+git status
+
+# 2. Stage all changes
+git add .
+
+# 3. Commit
+git commit -m "Describe what you changed"
+
+# 4. Push to GitHub
+git push
 ```
 
 ---

@@ -3,6 +3,8 @@ import { ArrowLeft, CalendarDays } from "lucide-react";
 import { useGetForecastQuery } from "../features/weather/weatherAPI";
 import ForecastCard from "../features/weather/components/ForecastCard";
 
+const DELAYS = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
+
 export default function ForecastPage() {
   const { city } = useParams<{ city: string }>();
   const { data, isLoading, isError } = useGetForecastQuery(city ?? "", {
@@ -11,7 +13,7 @@ export default function ForecastPage() {
 
   if (!city) {
     return (
-      <div className="text-center py-20 text-navy-400">
+      <div className="animate-fade-in text-center py-20 text-navy-400">
         <p>No city specified.</p>
         <Link to="/" className="text-accent hover:underline mt-2 inline-block">
           Go back to search
@@ -33,23 +35,23 @@ export default function ForecastPage() {
         Back to Home
       </Link>
 
-      <div className="flex items-center gap-3 mb-8">
+      <div className="animate-slide-down flex items-center gap-3 mb-8">
         <CalendarDays size={28} className="text-accent" />
         <h2 className="text-3xl font-bold">
           5-Day Forecast for{" "}
-          <span className="text-accent">{decodeURIComponent(city)}</span>
+          <span className="text-gradient">{decodeURIComponent(city)}</span>
         </h2>
       </div>
 
       {isLoading && (
-        <div className="text-center py-20">
-          <div className="mx-auto h-14 w-14 animate-spin rounded-full border-[3px] border-navy-600 border-t-accent" />
+        <div className="animate-fade-in text-center py-20">
+          <div className="spinner" />
           <p className="mt-5 text-navy-400 text-lg">Loading forecast…</p>
         </div>
       )}
 
       {isError && (
-        <div className="text-center py-16">
+        <div className="animate-fade-in text-center py-16">
           <p className="text-xl text-red-400">
             Failed to load forecast data.
           </p>
@@ -61,8 +63,12 @@ export default function ForecastPage() {
 
       {data && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {data.list.map((item) => (
-            <ForecastCard key={item.dt} item={item} />
+          {data.list.map((item, i) => (
+            <ForecastCard
+              key={item.dt}
+              item={item}
+              delay={DELAYS[i % DELAYS.length]}
+            />
           ))}
         </div>
       )}

@@ -19,9 +19,11 @@ export default function CurrentWeather() {
 
   if (!city) {
     return (
-      <div className="text-center py-20 text-navy-400">
+      <div className="animate-fade-in text-center py-20 text-navy-400">
         <Cloud size={72} className="mx-auto mb-5 opacity-40" />
-        <p className="text-xl font-light">Search for a city to see current weather</p>
+        <p className="text-xl font-light">
+          Search for a city to see current weather
+        </p>
         <p className="text-sm mt-2 text-navy-500">
           Try "London", "Tokyo", or "New York"
         </p>
@@ -31,20 +33,24 @@ export default function CurrentWeather() {
 
   if (isLoading) {
     return (
-      <div className="text-center py-20">
-        <div className="mx-auto h-14 w-14 animate-spin rounded-full border-[3px] border-navy-600 border-t-accent" />
-        <p className="mt-5 text-navy-400 text-lg">Loading weather data…</p>
+      <div className="animate-fade-in text-center py-20">
+        <div className="spinner" />
+        <p className="mt-5 text-navy-400 text-lg">
+          Loading weather data…
+        </p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="text-center py-16">
+      <div className="animate-fade-in text-center py-16">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4">
           <Cloud size={32} className="text-red-400" />
         </div>
-        <p className="text-xl text-red-400 font-medium">Failed to load weather data</p>
+        <p className="text-xl text-red-400 font-medium">
+          Failed to load weather data
+        </p>
         <p className="text-sm mt-2 text-navy-400 max-w-md mx-auto">
           {getErrorMessage(error) ||
             "Check the city name and verify your API key in .env"}
@@ -58,7 +64,7 @@ export default function CurrentWeather() {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
 
   return (
-    <div className="bg-navy-800/60 backdrop-blur rounded-2xl p-8 border border-navy-700/50">
+    <div className="animate-slide-up glass-strong glow-md rounded-2xl p-8">
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
         <div>
@@ -84,7 +90,7 @@ export default function CurrentWeather() {
 
       {/* Temperature */}
       <div className="mb-8">
-        <span className="text-8xl font-thin tracking-tighter">
+        <span className="text-8xl font-thin tracking-tighter text-gradient">
           {Math.round(data.main.temp)}
         </span>
         <span className="text-4xl font-thin text-navy-400 ml-1">°C</span>
@@ -96,31 +102,37 @@ export default function CurrentWeather() {
           icon={<Thermometer size={18} />}
           label="Feels Like"
           value={`${Math.round(data.main.feels_like)}°C`}
+          delay="stagger-1"
         />
         <DetailCard
           icon={<Droplets size={18} />}
           label="Humidity"
           value={`${data.main.humidity}%`}
+          delay="stagger-2"
         />
         <DetailCard
           icon={<Wind size={18} />}
           label="Wind"
           value={`${data.wind.speed} m/s`}
+          delay="stagger-3"
         />
         <DetailCard
           icon={<Eye size={18} />}
           label="Visibility"
           value={`${(data.visibility / 1000).toFixed(1)} km`}
+          delay="stagger-4"
         />
         <DetailCard
           icon={<Gauge size={18} />}
           label="Pressure"
           value={`${data.main.pressure} hPa`}
+          delay="stagger-5"
         />
         <DetailCard
           icon={<Cloud size={18} />}
           label="Cloudiness"
           value={`${data.clouds.all}%`}
+          delay="stagger-1"
         />
       </div>
     </div>
@@ -131,13 +143,17 @@ function DetailCard({
   icon,
   label,
   value,
+  delay,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
+  delay: string;
 }) {
   return (
-    <div className="bg-navy-900/60 rounded-xl p-4 border border-navy-700/40 hover:border-navy-600/60 transition-colors">
+    <div
+      className={`animate-slide-up ${delay} glass rounded-xl p-4 hover:glow-accent hover:border-accent/20 transition-all duration-300`}
+    >
       <div className="flex items-center gap-2 text-navy-400 mb-2">
         {icon}
         <span className="text-xs uppercase tracking-wider font-medium">
