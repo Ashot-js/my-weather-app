@@ -1,4 +1,4 @@
-# POGODA — Weather Forecast Website
+# Weather — Forecast Website
 
 Dark blue themed weather app built with React 19, TypeScript, Redux Toolkit, React Router 7, and Tailwind CSS 3.
 
@@ -39,7 +39,7 @@ npm install -g firebase-tools
 
 ```bash
 # 1. Navigate to the project folder
-cd pogoda
+cd weather
 
 # 2. Install all dependencies
 npm install
@@ -76,13 +76,17 @@ This runs TypeScript type-checking (`tsc -b`) then produces an optimized build i
 # Login to Firebase (opens browser)
 firebase login
 
-# If you haven't created a Firebase project yet:
-#   1. Go to https://console.firebase.google.com
-#   2. Click "Add project" and follow the steps
-#   3. Enable Firebase Hosting in the project
+# Create a new Firebase project (or use existing)
+firebase projects:create weather-site
 
-# Edit .firebaserc with your project ID:
-#   "default": "your-firebase-project-id"
+# OR via browser:
+#   1. Go to https://console.firebase.google.com
+#   2. Click "Add project"
+#   3. Set Project ID: weather-site
+#   4. Enable Firebase Hosting
+
+# Set this project as default
+firebase use weather-site
 ```
 
 ### Deploy
@@ -104,7 +108,7 @@ npm run deploy
 
 > **Why `;` not `&&` in PowerShell?** Windows PowerShell 5.x uses `;` to chain commands. PowerShell 7+ supports `&&`.
 
-Firebase will give you a public URL (e.g., `https://your-project-id.web.app`).
+Firebase will give you a public URL (e.g., `https://weather-site.web.app`).
 
 ### Redeploy after changes
 
@@ -137,7 +141,7 @@ git push
 ## Project Structure
 
 ```
-pogoda/
+weather/
 ├── public/                          # Static assets (optional)
 ├── src/
 │   ├── app/

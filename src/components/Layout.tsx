@@ -9,7 +9,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <footer className="border-t border-navy-800 py-4 text-center text-xs text-navy-500">
-        POGODA — Powered by OpenWeatherMap
+        Weather — Powered by OpenWeatherMap
       </footer>
     </div>
   );

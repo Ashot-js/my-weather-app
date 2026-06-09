@@ -12,10 +12,10 @@ export default function Header() {
           />
           <div>
             <h1 className="text-xl font-bold tracking-tight leading-none">
-              POGODA
+              Weather
             </h1>
             <span className="text-navy-400 text-xs tracking-widest uppercase">
-              Weather
+              Forecast
             </span>
           </div>
         </Link>
