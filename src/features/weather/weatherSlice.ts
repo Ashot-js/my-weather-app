@@ -5,7 +5,7 @@ interface WeatherState {
 }
 
 const initialState: WeatherState = {
-  selectedCity: "",
+  selectedCity: "Yerevan",
 };
 
 const weatherSlice = createSlice({
