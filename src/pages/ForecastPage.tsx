@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import { useGetForecastQuery } from "../features/weather/weatherAPI";
+import { getDailyForecast } from "../features/weather/forecastUtils";
 import ForecastCard from "../features/weather/components/ForecastCard";
 
 const DELAYS = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
@@ -62,8 +63,8 @@ export default function ForecastPage() {
       )}
 
       {data && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {data.list.map((item, i) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {getDailyForecast(data.list).map((item, i) => (
             <ForecastCard
               key={item.dt}
               item={item}

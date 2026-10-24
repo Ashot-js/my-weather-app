@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../../app/hooks";
 import { useGetForecastQuery } from "../weatherAPI";
+import { getDailyForecast } from "../forecastUtils";
 import ForecastCard from "./ForecastCard";
 
 const DELAYS = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
@@ -12,10 +13,8 @@ export default function ForecastList() {
 
   if (!city || isLoading || isError || !data) return null;
 
-  // Take one forecast per day (every 8th entry = 24h) for a 5-day view
-  const dailyForecasts = data.list
-    .filter((_, index) => index % 8 === 0)
-    .slice(0, 5);
+  // One representative entry per upcoming day (5-day view)
+  const dailyForecasts = getDailyForecast(data.list);
 
   return (
     <section className="mt-10">
