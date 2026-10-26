@@ -6,45 +6,37 @@ export interface WeatherCondition {
 }
 
 export interface CurrentWeatherData {
-  coord: { lon: number; lat: number };
   weather: WeatherCondition[];
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-  };
+  main: { temp: number; feels_like: number; pressure: number; humidity: number };
   visibility: number;
-  wind: { speed: number; deg: number; gust?: number };
+  wind: { speed: number };
   clouds: { all: number };
-  dt: number;
-  sys: { country: string; sunrise: number; sunset: number };
+  sys: { country: string };
   name: string;
 }
 
 export interface ForecastItem {
+  /** Unix time (UTC seconds) of the 3-hour slot. */
   dt: number;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-  };
+  main: { temp: number; temp_min: number; temp_max: number; humidity: number };
   weather: WeatherCondition[];
-  wind: { speed: number; deg: number };
-  dt_txt: string;
+  wind: { speed: number };
 }
 
 export interface ForecastData {
   list: ForecastItem[];
-  city: {
-    name: string;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
+  /** `timezone` is the city's offset from UTC in seconds. */
+  city: { name: string; country: string; timezone: number };
+}
+
+/** One day of the forecast, in the city's local time. */
+export interface DailyForecast {
+  /** Local calendar date, YYYY-MM-DD. */
+  date: string;
+  min: number;
+  max: number;
+  /** Conditions around local midday. */
+  weather: WeatherCondition;
+  humidity: number;
+  wind: number;
 }

@@ -1,129 +1,38 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* ============================================================
-   Base
-   ============================================================ */
+/* Design tokens used by the Tailwind classes in the app. */
+@theme {
+  --color-navy-950: #0a0f1e;
+  --color-navy-900: #0d1b2a;
+  --color-navy-800: #0f2744;
+  --color-navy-700: #132f5e;
+  --color-navy-600: #1a3a6b;
+  --color-navy-400: #5b86b8;
+  --color-navy-300: #8fb0d6;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93bbfd;
+
+  --animate-slide-up: slide-up 0.45s ease-out both;
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Frosted card used for every panel. */
+@utility glass {
+  @apply border border-accent/10 bg-navy-800/45 backdrop-blur-xl;
+}
+
 @layer base {
   body {
-    @apply bg-navy-950 text-white min-h-screen antialiased;
+    @apply min-h-dvh bg-navy-950 text-white antialiased;
   }
-
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-navy-900;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-navy-600 rounded-full;
-  }
-}
-
-/* ============================================================
-   Animations
-   ============================================================ */
-@layer utilities {
-  /* Fade in + slide up */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out both;
-  }
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out both;
-  }
-  .animate-slide-down {
-    animation: slideDown 0.4s ease-out both;
-  }
-
-  /* Stagger delays for lists */
-  .stagger-1 { animation-delay: 0.05s; }
-  .stagger-2 { animation-delay: 0.10s; }
-  .stagger-3 { animation-delay: 0.15s; }
-  .stagger-4 { animation-delay: 0.20s; }
-  .stagger-5 { animation-delay: 0.25s; }
-
-  /* Glass morphism */
-  .glass {
-    background: rgba(15, 39, 68, 0.45);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(96, 165, 250, 0.10);
-  }
-  .glass-strong {
-    background: rgba(13, 27, 42, 0.65);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(96, 165, 250, 0.15);
-  }
-
-  /* Glow effects */
-  .glow-sm {
-    box-shadow: 0 0 15px rgba(96, 165, 250, 0.08);
-  }
-  .glow-md {
-    box-shadow: 0 0 30px rgba(96, 165, 250, 0.12);
-  }
-  .glow-lg {
-    box-shadow: 0 0 50px rgba(96, 165, 250, 0.15);
-  }
-  .glow-accent {
-    box-shadow:
-      0 0 20px rgba(96, 165, 250, 0.10),
-      inset 0 0 20px rgba(96, 165, 250, 0.03);
-  }
-
-  /* Gradient text */
-  .text-gradient {
-    background: linear-gradient(135deg, #60a5fa 0%, #93bbfd 50%, #60a5fa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-}
-
-/* ============================================================
-   Keyframes
-   ============================================================ */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================================================
-   Component-level utilities
-   ============================================================ */
-@layer components {
-  /* Spinner (reusable — replace inline divs) */
-  .spinner {
-    @apply mx-auto h-14 w-14 animate-spin rounded-full border-[3px] border-navy-600 border-t-accent;
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 }

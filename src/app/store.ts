@@ -1,15 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { weatherApi } from "../features/weather/weatherAPI";
-import weatherReducer from "../features/weather/weatherSlice";
 
+// The selected city lives in the URL (?city=...), so the store only holds API data.
 export const store = configureStore({
-  reducer: {
-    [weatherApi.reducerPath]: weatherApi.reducer,
-    weather: weatherReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(weatherApi.middleware),
+  reducer: { [weatherApi.reducerPath]: weatherApi.reducer },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(weatherApi.middleware),
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

@@ -1,11 +1,14 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 
-const ForecastPage = lazy(() => import("./pages/ForecastPage"));
+// Old links to /forecast/<city> now open the home page for that city.
+function ForecastRedirect() {
+  const { city = "" } = useParams();
+  return <Navigate to={`/?city=${encodeURIComponent(city)}`} replace />;
+}
 
 export default function App() {
   return (
@@ -14,26 +17,11 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route
-              path="forecast/:city"
-              element={
-                <Suspense fallback={<ForecastFallback />}>
-                  <ForecastPage />
-                </Suspense>
-              }
-            />
+            <Route path="forecast/:city" element={<ForecastRedirect />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </Provider>
-  );
-}
-
-function ForecastFallback() {
-  return (
-    <div className="animate-fade-in text-center py-20">
-      <div className="spinner" />
-      <p className="mt-5 text-navy-400 text-lg">Loading forecast page…</p>
-    </div>
   );
 }

@@ -1,34 +1,27 @@
-import type { ForecastItem } from "../../types/weather";
+import type { DailyForecast, ForecastItem } from "../../types/weather";
 
 /**
- * Turn the raw 3-hour forecast list into one representative entry per day,
- * skipping today so the result is a clean upcoming-days forecast.
- * Prefers the 15:00 (then 12:00) slot as the daily snapshot.
+ * Turns the 3-hour forecast into one entry per day in the city's own time zone:
+ * the day's real high and low, plus the conditions closest to local midday.
+ * Today is included, so the free 5-day forecast really shows 5 days.
  */
-export function getDailyForecast(list: ForecastItem[], days = 5): ForecastItem[] {
-  if (!list.length) return [];
-
-  const byDay = new Map<string, ForecastItem[]>();
+export function getDailyForecast(list: ForecastItem[], timezoneOffset: number, days = 5): DailyForecast[] {
+  const byDay = new Map<string, { item: ForecastItem; hour: number }[]>();
   for (const item of list) {
-    const date = (item.dt_txt || "").split(" ")[0];
-    if (!date) continue;
-    const bucket = byDay.get(date) ?? [];
-    bucket.push(item);
-    byDay.set(date, bucket);
+    const local = new Date((item.dt + timezoneOffset) * 1000); // read with getUTC* = city time
+    const date = local.toISOString().slice(0, 10);
+    byDay.set(date, [...(byDay.get(date) ?? []), { item, hour: local.getUTCHours() }]);
   }
 
-  const dates = Array.from(byDay.keys()).sort();
-  // The first date is today — the forecast should show upcoming days only.
-  const upcoming = dates.slice(1, 1 + days);
-
-  return upcoming
-    .map((date) => {
-      const items = byDay.get(date) ?? [];
-      return (
-        items.find((i) => (i.dt_txt || "").includes("15:00:00")) ??
-        items.find((i) => (i.dt_txt || "").includes("12:00:00")) ??
-        items[0]
-      );
-    })
-    .filter((item): item is ForecastItem => Boolean(item));
+  return [...byDay.entries()].slice(0, days).map(([date, slots]) => {
+    const midday = slots.reduce((best, s) => (Math.abs(s.hour - 13) < Math.abs(best.hour - 13) ? s : best)).item;
+    return {
+      date,
+      min: Math.min(...slots.map((s) => s.item.main.temp_min)),
+      max: Math.max(...slots.map((s) => s.item.main.temp_max)),
+      weather: midday.weather[0],
+      humidity: midday.main.humidity,
+      wind: midday.wind.speed,
+    };
+  });
 }

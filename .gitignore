@@ -4,3 +4,5 @@ dist
 .env.local
 .firebase/
 tsconfig.tsbuildinfo
+.DS_Store
+*.log

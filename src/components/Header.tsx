@@ -3,21 +3,14 @@ import { Link } from "react-router";
 
 export default function Header() {
   return (
-    <header className="bg-navy-900/80 backdrop-blur border-b border-navy-800 sticky top-0 z-10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <CloudSun
-            size={32}
-            className="text-accent group-hover:text-accent-hover transition-colors"
-          />
-          <div>
-            <h1 className="text-xl font-bold tracking-tight leading-none">
-              Weather
-            </h1>
-            <span className="text-navy-400 text-xs tracking-widest uppercase">
-              Forecast
-            </span>
-          </div>
+    <header className="sticky top-0 z-10 border-b border-navy-800 bg-navy-900/80 pt-[env(safe-area-inset-top)] backdrop-blur">
+      <div className="mx-auto flex max-w-4xl items-center px-4 py-4 sm:px-6">
+        <Link to="/" className="group flex items-center gap-3">
+          <CloudSun size={32} className="text-accent transition-colors group-hover:text-accent-hover" aria-hidden />
+          <span>
+            <span className="block text-xl leading-none font-bold tracking-tight">Weather</span>
+            <span className="text-xs tracking-widest text-navy-400 uppercase">Forecast</span>
+          </span>
         </Link>
       </div>
     </header>
